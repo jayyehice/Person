@@ -73,23 +73,24 @@ cur = conn.cursor()
 
 data = []#用來儲存資料
 
-Fellowship = [['主日學', '宗教教育費-主日學'], ['聖歌隊', '宗教教育費-聖歌隊'], ['敬拜團', '宗教教育費-敬拜團'],
-              ['少年團契', '團契事工費-少年團契'], ['學青小組', '團契事工費-學青小組'], ['職青小組', '團契事工費-職青小組'],
-              ['兄弟小組', '團契事工費-兄弟小組'], ['兄弟詩班', '團契事工費-兄弟詩班'], ['西乃團契', '團契事工費-西乃團契'],
-              ['夫婦小組', '團契事工費-夫婦小組'], ['傾聽小組', '團契事工費-傾聽小組'], ['以西結小組', '團契事工費-以西結小組'],
-              ['開心小組', '團契事工費-開心小組'], ['喜樂一小組', '團契事工費-喜樂一小組'], ['喜樂二小組', '團契事工費-喜樂二小組'],
-              ['多加小組', '團契事工費-多加小組'], ['呂底亞小組', '團契事工費-呂底亞小組'], ['哈拿小組', '團契事工費-哈拿小組'],
-              ['攝影團契', '社區事工費-攝影團契']]
+subject = [['月定獻金', '4101%'], ['聖餐獻金', '4103%'], ['節期獻金', '4104%'],
+        ['感恩獻金', '4105%'], ['特別獻金', '4106%'], ['建築及專案獻金', '4211.01'],
+        ['對外獻金-本宗', '4214%'], ['對內獻金', '4215%']]
+
+Fellowship = ['洪維彊']
 
 for name in Fellowship:
     
     #輸入SQL語法
-    SQL = "SELECT class, dd, des, amt FROM [invo] WHERE code_des = '"+ name[0] +"' or code_des = '"+ name[1] +"' ORDER BY dd;" ## invo為資料表名稱
-    cur.execute(SQL)
-    list_ = cur.fetchall()
-    
+    #SQL = "SELECT SUM(amt) FROM [per] WHERE name = '"+ name +"' and code_des = '月定獻金';" ## invo為資料表名稱
+    for subj in subject:
+        
+        SQL = "SELECT SUM(amt) FROM [per] WHERE name = '"+ name +"' and code LIKE '"+subj[1]+"';"
+        cur.execute(SQL)
+        list_ = cur.fetchall()
+        print(subj[0], list_[0][0])
     #print(list_)
-    
+'''    
     #若沒資料就跳過不顯示
     if list_ == []:
         continue
@@ -108,13 +109,13 @@ for name in Fellowship:
     data.append('sum_mark')#事工單位結束標誌
 
 
-
+'''
 cur.close()
 conn.close()
 
 #------------------------------------------------------------------------------ 
        
-        
+'''        
 #抓今天列印日期
 print_day = str(datetime.date.today())
 p_day = print_day.replace('-', '')
@@ -200,3 +201,5 @@ for i in data:
 
 file_name = './吳興教會收支表-' + p_day + '.xlsx'
 wb.save(r''+file_name)
+
+'''
