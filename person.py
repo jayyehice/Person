@@ -77,10 +77,19 @@ subject = [['月定獻金', '4101%'], ['聖餐獻金', '4103%'], ['節期獻金'
         ['感恩獻金', '4105%'], ['特別獻金', '4106%'], ['建築及專案獻金', '4211.01'],
         ['對外獻金-本宗', '4214%'], ['對內獻金', '4215%']]
 
-Fellowship = ['洪維彊']
+
+
+
+
+Fellowship = ['123']
 
 for name in Fellowship:
     
+    SQL = "SELECT id, name FROM [member] ORDER BY id;"
+    cur.execute(SQL)
+    member_list = cur.fetchall()
+    
+'''    
     #輸入SQL語法
     #SQL = "SELECT SUM(amt) FROM [per] WHERE name = '"+ name +"' and code_des = '月定獻金';" ## invo為資料表名稱
     for subj in subject:
@@ -90,6 +99,8 @@ for name in Fellowship:
         list_ = cur.fetchall()
         print(subj[0], list_[0][0])
     #print(list_)
+
+'''
 '''    
     #若沒資料就跳過不顯示
     if list_ == []:
